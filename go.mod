@@ -1,3 +1,3 @@
-module github.com/dabump/token-bucket
+module github.com/dabump/tokenbucket
 
 go 1.17

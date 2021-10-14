@@ -1,4 +1,4 @@
-package token
+package tokenbucket
 
 import (
 	"fmt"
@@ -13,15 +13,16 @@ type Bucket struct {
 	designation  string
 	rateDuration time.Duration
 
-	mutex sync.Mutex
-	availableTokens int16
+	mutex               sync.Mutex
+	availableTokens     int16
+	lastAvailableTokens int16
 }
 
 func NewBucket(designation string, rate int16, duration time.Duration) *Bucket {
 	b := Bucket{
-		rate: rate,
+		rate:         rate,
 		rateDuration: duration,
-		designation: designation,
+		designation:  designation,
 	}
 	b.availableTokens = rate
 	return &b
@@ -29,7 +30,8 @@ func NewBucket(designation string, rate int16, duration time.Duration) *Bucket {
 
 func (b *Bucket) hit() bool {
 	b.mutex.Lock()
-	if b.availableTokens > 0 || (b.availableTokens - hitCount) > 0 {
+	if b.availableTokens > 0 || (b.availableTokens-hitCount) > 0 {
+		b.lastAvailableTokens = b.availableTokens
 		b.availableTokens -= hitCount
 		fmt.Printf("reducing token count by %d, availble tokens %d\n", hitCount, b.availableTokens)
 		b.mutex.Unlock()
@@ -40,7 +42,7 @@ func (b *Bucket) hit() bool {
 	return false
 }
 
-func (b *Bucket) fill()  {
+func (b *Bucket) fill() {
 	b.mutex.Lock()
 	fmt.Printf("available tokens %d, refilling back to %d\n", b.availableTokens, b.rate)
 	b.availableTokens = b.rate
