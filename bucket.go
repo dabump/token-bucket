@@ -3,28 +3,25 @@ package tokenbucket
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 const hitCount = 1
 
 type Bucket struct {
-	rate         int16
-	designation  string
-	rateDuration time.Duration
+	size        int16
+	designation string
 
 	mutex               sync.Mutex
 	availableTokens     int16
 	lastAvailableTokens int16
 }
 
-func NewBucket(designation string, rate int16, duration time.Duration) *Bucket {
+func NewBucket(designation string, size int16) *Bucket {
 	b := Bucket{
-		rate:         rate,
-		rateDuration: duration,
-		designation:  designation,
+		size:        size,
+		designation: designation,
 	}
-	b.availableTokens = rate
+	b.availableTokens = size
 	return &b
 }
 
@@ -44,7 +41,7 @@ func (b *Bucket) hit() bool {
 
 func (b *Bucket) fill() {
 	b.mutex.Lock()
-	fmt.Printf("available tokens %d, refilling back to %d\n", b.availableTokens, b.rate)
-	b.availableTokens = b.rate
+	fmt.Printf("available tokens %d, filling back to %d\n", b.availableTokens, b.size)
+	b.availableTokens = b.size
 	b.mutex.Unlock()
 }

@@ -22,16 +22,12 @@ func (a *flag) has(flag flag) bool {
 type Daemon struct {
 	flags    flag
 	bucket   *Bucket
-	interval time.Duration
 	cancelFunc context.CancelFunc
 }
 
 func NewDaemon(bucket *Bucket, flags flag) *Daemon {
-	interval := bucket.rateDuration * time.Duration(bucket.rate)
-	fmt.Printf("new worker initialised for %s, duration: %v\n", bucket.designation, interval)
 	return &Daemon{
 		bucket:   bucket,
-		interval: interval,
 		flags:    flags,
 	}
 }
@@ -39,7 +35,7 @@ func NewDaemon(bucket *Bucket, flags flag) *Daemon {
 func (w *Daemon) Start() {
 	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
-		ticker := time.Tick(w.interval)
+		ticker := time.Tick(time.Duration(1) * time.Second)
 		for true {
 			select {
 			case <-ticker:

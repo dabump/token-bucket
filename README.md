@@ -1,5 +1,7 @@
 # Simple Token Bucket
-Simple token bucket for rate limiting implementation
+Simple token bucket implementation used for simple rate limiting
+
+The algorithm will fill the bucket back to it's initial size every second
 
 Based on Token Bucket wiki: [wikipedia](https://en.wikipedia.org/wiki/Token_bucket)
 
@@ -10,7 +12,7 @@ Minimum requirements:
 ### Create a new bucket configuration based on 5 tokens per second
 #### Usage example:
 ```go
-bucket := tokenbucket.NewBucket("MyBucket", 5, time.Second)
+bucket := tokenbucket.NewBucket("MyBucket", 5)
 ```
 
 ### Create and start daemon to manage the lifecycle of the bucket
