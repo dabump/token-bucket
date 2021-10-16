@@ -1,8 +1,8 @@
 package tokenbucket
 
 import (
-	"fmt"
 	"sync"
+	"log"
 )
 
 const hitCount = 1
@@ -30,18 +30,18 @@ func (b *Bucket) hit() bool {
 	if b.availableTokens > 0 || (b.availableTokens-hitCount) > 0 {
 		b.lastAvailableTokens = b.availableTokens
 		b.availableTokens -= hitCount
-		fmt.Printf("reducing token count by %d, availble tokens %d\n", hitCount, b.availableTokens)
+		log.Printf("reducing token count by %d, availble tokens %d\n", hitCount, b.availableTokens)
 		b.mutex.Unlock()
 		return true
 	}
 	b.mutex.Unlock()
-	fmt.Print("insufficient tokens available\n")
+	log.Print("insufficient tokens available\n")
 	return false
 }
 
 func (b *Bucket) fill() {
 	b.mutex.Lock()
-	fmt.Printf("available tokens %d, filling back to %d\n", b.availableTokens, b.size)
+	log.Printf("available tokens %d, filling back to %d\n", b.availableTokens, b.size)
 	b.availableTokens = b.size
 	b.mutex.Unlock()
 }
