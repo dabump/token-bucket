@@ -1,9 +1,10 @@
 package tokenbucket
 
 import (
-	"gotest.tools/assert"
 	"reflect"
 	"testing"
+
+	"gotest.tools/v3/assert"
 )
 
 func TestNewBucket(t *testing.T) {
