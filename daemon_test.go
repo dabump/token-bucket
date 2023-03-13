@@ -1,9 +1,10 @@
 package tokenbucket
 
 import (
-	"gotest.tools/assert"
 	"testing"
 	"time"
+
+	"gotest.tools/v3/assert"
 )
 
 func Test_flag_has(t *testing.T) {

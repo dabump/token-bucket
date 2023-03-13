@@ -1,10 +1,7 @@
 module github.com/dabump/tokenbucket
 
-go 1.17
+go 1.20
 
-require gotest.tools v2.2.0+incompatible
+require gotest.tools/v3 v3.4.0
 
-require (
-	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-)
+require github.com/google/go-cmp v0.5.6 // indirect

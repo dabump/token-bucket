@@ -14,5 +14,9 @@ cover: ## Run test coverage suite
 build: ## Builds the token bucket
 	@go build ${GO_FLAGS}
 
+format: ## Format and organise imports
+	@go install mvdan.cc/gofumpt@latest
+	@gofumpt -l -w .
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":[^:]*?## "}; {printf "\033[38;5;69m%-30s\033[38;5;38m %s\033[0m\n", $$1, $$2}'
