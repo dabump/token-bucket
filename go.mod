@@ -1,6 +1,6 @@
 module github.com/dabump/tokenbucket
 
-go 1.21
+go 1.23
 
 require gotest.tools/v3 v3.5.1
 
